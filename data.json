@@ -1,0 +1,33 @@
+{
+"title":"technologes",
+"description": "name of options and source of theme",
+"options": 
+	[
+		{
+			"title":"tech1",
+			"description":"tech1 desc",
+			"source":["http://google.com","http://google.com"],
+			"create_dir":false
+		},
+		{
+			"title":"tech2",
+			"description":"tech1 desc",
+			"source":["http://google.com","http://google.com"],
+			"create_dir":false
+		},
+		{
+			"title":"tech3",
+			"description":"tech1 desc",
+			"source":["http://google.com","http://google.com"],
+			"create_dir":false
+		},
+		{
+			"title":"tech4",
+			"description":"tech1 desc",
+			"source":["http://google.com","http://google.com"],
+			"create_dir":false
+		}
+	
+	]
+
+}

@@ -1,0 +1,30 @@
+Screen {
+        align: center middle;
+}
+
+#cL{
+	width:80%;
+}
+#cBox{
+	align: center middle;
+	width:100%;
+}
+#sBox{
+	align:center middle;
+	height:20%;
+}
+
+#text{
+	width:80%;
+	text-align:center;
+	padding:1;
+	box-sizing:content-box;
+	border: wide gray;
+}
+Button{
+width:40%;
+}
+#bbox{
+	align:center middle;
+	height:30%;
+}
