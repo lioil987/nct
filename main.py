@@ -26,6 +26,7 @@ class Cloner(App):
         #+++++++++++++++++++++++++
         sB = SelectionList(id='cL')
         self.sB = sB
+        
         for i in range(0,len(data['options'])):
             sB.add_option(Selection(data['options'][i]['title'],i))
             
@@ -38,10 +39,10 @@ class Cloner(App):
     def on_button_pressed(self, event: Button.Pressed) -> None | object:
         button_id = event.button.id
         if button_id == "config-b":
-             self.push_screen(QuitScreen())
+             self.push_screen(QuitScreen(pk=(self.sB.highlighted)or 0))
     @on(SelectionList.SelectedChanged)
     def update_selected_view(self) -> None:
-        if len((self.query_one('SelectionList')).selected) == 0:
+        if len(self.sB.selected) == 0:
             self.query_one("Button#doit_b").disabled = True;
         else:
             self.query_one("Button#doit_b").disabled = False;
@@ -51,11 +52,13 @@ class Cloner(App):
 
 class QuitScreen(ModalScreen[bool]):  
 
-
+    def __init__(self, pk:int,name: str | None = None, id: str | None = None, classes: str | None = None) -> None:
+        super().__init__(name, id, classes)
+        self.data:dict = data["options"][pk]
     def compose(self) -> ComposeResult:
         yield Grid(
-            Static("Are you sure you want to quit?"),
-            Input(placeholder="write a origin file or directory or url"),
+            Static(self.data['title']),
+            Input(str(self.data['source']),placeholder="write a origin file or directory or url"),
             Input(placeholder="write a destination directory"),
             
             Container(Button("save", variant="default", id="save_b"),
