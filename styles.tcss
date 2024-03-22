@@ -22,9 +22,35 @@ Screen {
 	border: wide gray;
 }
 Button{
-width:40%;
 }
 #bbox{
 	align:center middle;
+	layout:horizontal;
 	height:30%;
+	width:100%;
+	overflow:hidden hidden;
+}
+#doit_b{
+	width:40%;
+	min-width:20;
+}
+#config-b {
+	margin-left:2;
+	width:22%;
+	min-width:10;
+}
+#dialog{
+	align:center middle;
+}
+#dialog Static{
+width:100%;
+text-align: center;
+}
+
+#dialog Button{
+width: 50%;
+}
+
+#dialog Container{
+align:center middle;
 }
