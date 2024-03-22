@@ -6,32 +6,8 @@
 		{
 			"title":"tech1",
 			"description":"tech1 desc",
-			"source":["http://google.com","http://google.com"],
-			"create_dir":false
-		},
-		{
-			"title":"tech2",
-			"description":"tech1 desc",
-			"source":["http://google.com","http://google.com"],
-			"create_dir":false
-		},
-		{
-			"title":"tech3",
-			"description":"tech1 desc",
-			"source":["http://google.com","http://google.com"],
-			"create_dir":false
-		},
-		{
-			"title":"tech4",
-			"description":"tech1 desc",
-			"source":["http://google.com","http://google.com"],
-			"create_dir":false
-		},
-		{
-			"title":"hello",
-			"description":"tech1 desc",
-			"source":["http://google.com","http://google.com"],
-			"create_dir":false
+			"sources":[["/home/ub__/test.txt","hello.txt"]],
+			"destination":"/home/ub__/Desktop/"
 		}
 	
 	]

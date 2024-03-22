@@ -1,13 +1,18 @@
 #+++++++++++srource files
+from os.path import isdir, isfile
 from textual.app import App, ComposeResult
 from textual.widget import Widget
-from textual.widgets import Button, Label, Header, Footer, Placeholder, Static, SelectionList, Input
+from textual.widgets import Button, Label, Header, Footer, Placeholder, ProgressBar, Static, SelectionList, Input
 from textual.events import Mount
 from textual import on
 from textual.containers import Container, Vertical, Horizontal, Grid
 from textual.widgets.selection_list import Selection
 from textual.screen import ModalScreen
 import json
+import shutil
+import requests
+from urllib.parse import urlparse
+import os
 #-----------
 data =None
 
@@ -38,6 +43,11 @@ class Cloner(App):
         yield Footer()
     def on_button_pressed(self, event: Button.Pressed) -> None | object:
         button_id = event.button.id
+        if button_id == "doit_b":
+            for item in data['options']:
+                for source in item['sources']:
+                    copyProcess.copy(source[0], item['destination'], source[1])
+
         if button_id == "config-b":
              self.push_screen(QuitScreen(pk=(self.sB.highlighted)or 0))
     @on(SelectionList.SelectedChanged)
@@ -47,6 +57,30 @@ class Cloner(App):
         else:
             self.query_one("Button#doit_b").disabled = False;
 
+class copyProcess():
+    @staticmethod
+    def copy(origin:str,destination:str,filename:str):
+        if copyProcess.is_valid_url(origin):
+            copyProcess.download_web(origin,destination,filename)
+        else:
+            copyProcess.local_copy(origin,destination,filename)
+    @staticmethod
+    def download_web(url:str,destination:str,filename:str):
+        response = requests.get(url)
+        open(os.path.join(destination,filename), "wb").write(response.content)
+    @staticmethod
+    def is_valid_url(url):
+        try:
+            result = urlparse(url)
+            return all([result.scheme, result.netloc])
+        except ValueError:
+            return False
+    @staticmethod
+    def local_copy(origin:str,destination:str,filename:str):
+        if os.path.isfile(origin):
+            shutil.copy2(origin, os.path.join(destination,filename))
+        elif os.path.isdir(origin):
+            shutil.copytree(origin, os.path.join(destination,filename))
 
 
 
@@ -58,12 +92,13 @@ class QuitScreen(ModalScreen[bool]):
     def compose(self) -> ComposeResult:
         yield Grid(
             Static(self.data['title']),
-            Input(str(self.data['source']),placeholder="write a origin file or directory or url"),
-            Input(placeholder="write a destination directory"),
+            Input(str(self.data['sources']),placeholder="write a origin file or directory or url"),
+            Input(str(self.data['destination']),placeholder="write a destination directory"),
             
             Container(Button("save", variant="default", id="save_b"),
             id="dialog",
         ))
+
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "quit":

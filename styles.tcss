@@ -54,3 +54,8 @@ width: 50%;
 #dialog Container{
 align:center middle;
 }
+#pb_box{
+width:100%;
+align:center middle;
+height:1;
+}
