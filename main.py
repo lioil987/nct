@@ -1,5 +1,6 @@
 #+++++++++++srource files
-from os.path import isdir, isfile
+from os.path import exists, isdir, isfile, join
+from sys import path
 from textual.app import App, ComposeResult
 from textual.widget import Widget
 from textual.widgets import Button, Label, Header, Footer, Placeholder, ProgressBar, Static, SelectionList, Input,Checkbox
@@ -16,14 +17,15 @@ import os
 import ast
 #-----------
 data =None
+style_file=os.path.join(os.path.abspath(__file__+"/.."),"styles.tcss")
+data_file=os.path.join(os.path.abspath(__file__+"/.."),"data.json")
 
-
-with open('./data.json') as f:
+with open(data_file) as f:
     temp = json.load(f)
     data=temp;
 
 class Cloner(App):
-    CSS_PATH = "./styles.tcss"
+    CSS_PATH = style_file
     TITLE = "Cloner"
     SUB_TITLE = "clone framework"
 
@@ -45,9 +47,9 @@ class Cloner(App):
     def on_button_pressed(self, event: Button.Pressed) -> None | object:
         button_id = event.button.id
         if button_id == "doit_b":
-            for item in data['options']:
-                for source in item['sources']:
-                    copyProcess.copy(source[0], item['destination'], source[1])
+            for i in self.sB.selected:
+                for source in data["options"][i]['sources']:
+                    copyProcess.copy(source[0], data["options"][i]['destination'], source[1])
 
         if button_id == "config-b":
              self.push_screen(ConfigScreen(pk=(self.sB.highlighted)or 0))
@@ -63,6 +65,7 @@ class Cloner(App):
 class copyProcess():
     @staticmethod
     def copy(origin:str,destination:str,filename:str):
+        os.makedirs(destination,exist_ok=True)
         if copyProcess.is_valid_url(origin):
             copyProcess.download_web(origin,destination,filename)
         else:
@@ -81,9 +84,9 @@ class copyProcess():
     @staticmethod
     def local_copy(origin:str,destination:str,filename:str):
         if os.path.exists(origin):
-             if os.path.isfile(origin):
+             if os.path.isfile(origin) and not os.path.exists(os.path.join(destination,filename)):
                   shutil.copy2(origin, os.path.join(destination,filename))
-             elif os.path.isdir(origin):
+             elif os.path.isdir(origin) and not os.path.exists(os.path.join(destination,filename)):
                   shutil.copytree(origin, os.path.join(destination,filename))
 
 
@@ -114,10 +117,12 @@ class ConfigScreen(ModalScreen[bool]):
             data['options'][self.pk]['sources'] = list_of_lists
             data['options'][self.pk]['title'] = self.query_one("#input_title_conf").value
             data['options'][self.pk]['description'] = self.query_one('#input_description_conf').value
-            with open('data.json','w') as file:
+            with open(data_file,'w') as file:
                 json.dump(data,file)
         if event.button.id == "delete_b":
             data['options'].pop(self.pk)
+            with open(data_file,'w') as file:
+                json.dump(data,file)
         self.dismiss(True)
         refresh()
 
@@ -148,8 +153,9 @@ class AddScreen(ModalScreen[bool]):
             listOfsources = ast.literal_eval(self.query_one('#input_ori_add').value)
             new_dict = {"title": title,"description": description,"sources": listOfsources,"destination": des}
             data["options"].append(new_dict)
-            with open('data.json','w') as file:
+            with open(data_file,'w') as file:
                 json.dump(data,file)
+        refresh()
         self.dismiss(True)
 
 
