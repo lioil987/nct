@@ -2,7 +2,7 @@
 from os.path import isdir, isfile
 from textual.app import App, ComposeResult
 from textual.widget import Widget
-from textual.widgets import Button, Label, Header, Footer, Placeholder, ProgressBar, Static, SelectionList, Input
+from textual.widgets import Button, Label, Header, Footer, Placeholder, ProgressBar, Static, SelectionList, Input,Checkbox
 from textual.events import Mount
 from textual import on
 from textual.containers import Container, Vertical, Horizontal, Grid
@@ -97,23 +97,29 @@ class ConfigScreen(ModalScreen[bool]):
         self.data:dict = data["options"][pk]
     def compose(self) -> ComposeResult:
         yield Grid(
-            Static(self.data['title']),
-            Input(str(self.data['sources']),placeholder="write a origin file or directory or url",id="input_ori",classes="input"),
-            Input(str(self.data['destination']),placeholder="write a destination directory",id="input_des",classes="input"),
-            
-            Container(Button("save", variant="default", id="save_b"),
+            Input(str(self.data['title']),placeholder="write a origin file or directory or url",id="input_title_conf",classes="input"),
+            Input(str(self.data['description']),placeholder="write a origin file or directory or url",id="input_description_conf",classes="input"),
+            Input(str(self.data['sources']),placeholder="write a origin file or directory or url",id="input_ori_conf",classes="input"),
+            Input(str(self.data['destination']),placeholder="write a destination directory",id="input_des_conf",classes="input"),
+            Horizontal(Button("save", variant="default", id="save_b"),
+            Button("delete",variant="default",id="delete_b"),
             id="dialog",
         ))
 
     
     def on_button_pressed(self, event: Button.Pressed) -> None:
         if event.button.id == "save_b":
-            data['options'][self.pk]['destination'] = self.query_one('#input_des').value
-            list_of_lists = ast.literal_eval(self.query_one('#input_ori').value)
+            data['options'][self.pk]['destination'] = self.query_one('#input_des_conf').value
+            list_of_lists = ast.literal_eval(self.query_one('#input_ori_conf').value)
             data['options'][self.pk]['sources'] = list_of_lists
+            data['options'][self.pk]['title'] = self.query_one("#input_title_conf").value
+            data['options'][self.pk]['description'] = self.query_one('#input_description_conf').value
             with open('data.json','w') as file:
                 json.dump(data,file)
+        if event.button.id == "delete_b":
+            data['options'].pop(self.pk)
         self.dismiss(True)
+        refresh()
 
 
     
@@ -149,10 +155,14 @@ class AddScreen(ModalScreen[bool]):
 
     
 
-
-
+def refresh():
+       app.sB.clear_options()
+       for i in range(0,len(data['options'])):
+            app.sB.add_option(Selection(data['options'][i]['title'],i))
+            
 
 if __name__ == "__main__":
+    global app;
     app = Cloner()
     app.run()
 
