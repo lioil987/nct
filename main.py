@@ -13,6 +13,7 @@ import shutil
 import requests
 from urllib.parse import urlparse
 import os
+import ast
 #-----------
 data =None
 
@@ -38,7 +39,7 @@ class Cloner(App):
         with Vertical():
             yield Container(Static("choose item an create theme",id="text"),id="sBox")
             yield Container(sB,id="cBox")
-            yield Container(Button("do it",id="doit_b",disabled=True),Button('config',id="config-b"), id="bbox")
+            yield Container(Button("do it",id="doit_b",disabled=True),Button('config',id="config-b"),Button("add",id="addb"),id="bbox")
         #-------------------------
         yield Footer()
     def on_button_pressed(self, event: Button.Pressed) -> None | object:
@@ -49,7 +50,9 @@ class Cloner(App):
                     copyProcess.copy(source[0], item['destination'], source[1])
 
         if button_id == "config-b":
-             self.push_screen(QuitScreen(pk=(self.sB.highlighted)or 0))
+             self.push_screen(ConfigScreen(pk=(self.sB.highlighted)or 0))
+        if button_id == "addb":
+             self.push_screen(AddScreen())
     @on(SelectionList.SelectedChanged)
     def update_selected_view(self) -> None:
         if len(self.sB.selected) == 0:
@@ -77,34 +80,71 @@ class copyProcess():
             return False
     @staticmethod
     def local_copy(origin:str,destination:str,filename:str):
-        if os.path.isfile(origin):
-            shutil.copy2(origin, os.path.join(destination,filename))
-        elif os.path.isdir(origin):
-            shutil.copytree(origin, os.path.join(destination,filename))
+        if os.path.exists(origin):
+             if os.path.isfile(origin):
+                  shutil.copy2(origin, os.path.join(destination,filename))
+             elif os.path.isdir(origin):
+                  shutil.copytree(origin, os.path.join(destination,filename))
 
 
 
-class QuitScreen(ModalScreen[bool]):  
+
+class ConfigScreen(ModalScreen[bool]):  
 
     def __init__(self, pk:int,name: str | None = None, id: str | None = None, classes: str | None = None) -> None:
         super().__init__(name, id, classes)
+        self.pk = pk
         self.data:dict = data["options"][pk]
     def compose(self) -> ComposeResult:
         yield Grid(
             Static(self.data['title']),
-            Input(str(self.data['sources']),placeholder="write a origin file or directory or url"),
-            Input(str(self.data['destination']),placeholder="write a destination directory"),
+            Input(str(self.data['sources']),placeholder="write a origin file or directory or url",id="input_ori",classes="input"),
+            Input(str(self.data['destination']),placeholder="write a destination directory",id="input_des",classes="input"),
             
             Container(Button("save", variant="default", id="save_b"),
             id="dialog",
         ))
 
-
+    
     def on_button_pressed(self, event: Button.Pressed) -> None:
-        if event.button.id == "quit":
-            self.dismiss(True)
-        else:
-            self.dismiss(False)
+        if event.button.id == "save_b":
+            data['options'][self.pk]['destination'] = self.query_one('#input_des').value
+            list_of_lists = ast.literal_eval(self.query_one('#input_ori').value)
+            data['options'][self.pk]['sources'] = list_of_lists
+            with open('data.json','w') as file:
+                json.dump(data,file)
+        self.dismiss(True)
+
+
+    
+
+class AddScreen(ModalScreen[bool]):  
+
+    def __init__(self,name: str | None = None, id: str | None = None, classes: str | None = None) -> None:
+        super().__init__(name, id, classes)
+    def compose(self) -> ComposeResult:
+        yield Grid(
+            Input(placeholder="inter title",id="input_title_add",classes="input"),
+            Input(placeholder="inter description",id="input_description_add",classes="input"),
+            Input(placeholder="write a origin file or directory or url",id="input_ori_add",classes="input"),
+            Input(placeholder="write a destination directory",id="input_des_add",classes="input"),
+            
+            Container(Button("save", variant="default", id="save_b_add"),
+            id="dialog",
+        ))
+
+    
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        if event.button.id == "save_b_add":
+            des = self.query_one('#input_des_add').value
+            title = self.query_one('#input_title_add').value
+            description = self.query_one('#input_description_add').value
+            listOfsources = ast.literal_eval(self.query_one('#input_ori_add').value)
+            new_dict = {"title": title,"description": description,"sources": listOfsources,"destination": des}
+            data["options"].append(new_dict)
+            with open('data.json','w') as file:
+                json.dump(data,file)
+        self.dismiss(True)
 
 
     

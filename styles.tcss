@@ -36,8 +36,13 @@ Button{
 }
 #config-b {
 	margin-left:2;
-	width:22%;
-	min-width:10;
+	width:15%;
+	min-width:9;
+}
+#addb {
+	margin-left:2;
+	width:15%;
+	min-width:9;
 }
 #dialog{
 	align:center middle;
