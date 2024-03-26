@@ -1,0 +1,81 @@
+Screen {
+        align: center middle;
+}
+
+#cL{
+	width:80%;
+}
+#cBox{
+	align: center middle;
+	width:100%;
+}
+#sBox{
+	align:center middle;
+	height:20%;
+}
+
+#text{
+	width:80%;
+	padding:1;
+	box-sizing:content-box;
+	border: wide gray;
+}
+#bbox{
+	align:center middle;
+	layout:horizontal;
+	height:30%;
+	width:100%;
+	overflow:hidden hidden;
+}
+#clone_b{
+	width:40%;
+	min-width:20;
+}
+#config_b {
+	margin-left:2;
+	width:15%;
+	min-width:9;
+}
+#addb {
+	margin-left:2;
+	width:15%;
+	min-width:9;
+}
+#dialog{
+	align:center middle;
+}
+#dialog Static{
+width:100%;
+text-align: center;
+}
+
+#dialog Button{
+width: 50%;
+}
+
+#dialog Container{
+align:center middle;
+}
+#pb_box{
+width:100%;
+align:center middle;
+height:1;
+}
+#all_b{
+padding:2
+}
+#all_b Button{
+margin-top:2;
+}
+
+#delete_b{
+width:20%;
+}
+#save_b{
+width:20%;
+}
+Label{
+text-align:left;
+width:100%;
+
+}

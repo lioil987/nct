@@ -1,0 +1,5 @@
+textual==0.1.0
+requests==2.26.0
+shutil==1.0.0
+os==0.1.5
+ast==1.0.0
