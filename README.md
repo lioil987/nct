@@ -29,7 +29,7 @@ Cloner is a Python application designed to facilitate the cloning of files and d
    - Configure selected items.
    - Copy files or directories based on configurations.
    - Add new item(files or directores) configurations.
-   # Please note that not all configurations present within the application work as expected. This is normal behavior because the origin of the files is missing. These files are stored on my computer. You are welcome to add your own configurations. I left them to show how configuration is possible.
+   ### Please note that not all configurations present within the application work as expected. This is normal behavior because the origin of the files is missing. These files are stored on my computer. You are welcome to add your own configurations. I left them to show how configuration is possible.
 
 ## Configuration
 - Framework configurations are stored in a JSON file (`data.json`). Users can modify this file directly or use the application interface to add, edit, or delete configurations.
