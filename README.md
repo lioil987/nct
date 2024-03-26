@@ -6,7 +6,7 @@ a TUI tool , This tool provides an easy access for copying files from the web or
 
 
 
-# Cloner Framework
+# Cloner Tool
 
 ## Description
 Cloner is a Python application designed to facilitate the cloning of files and directores. It provides a user-friendly interface for selecting predefined items, configuring them, and copying files or directories from specified sources to destinations. With Cloner, developers can efficiently manage framework configurations and streamline the process of replicating them.
