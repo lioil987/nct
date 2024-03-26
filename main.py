@@ -61,7 +61,7 @@ class Cloner(App):
              self.push_screen(AddScreen())
     @on(SelectionList.SelectedChanged)
     def update_selected_view(self) -> None:
-        if self.sB.selected:
+        if not self.sB.selected:
             self.query_one("Button#clone_b").disabled = True;
         else:
             self.query_one("Button#clone_b").disabled = False;
