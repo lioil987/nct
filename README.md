@@ -23,7 +23,7 @@ Cloner is a Python application designed to facilitate the cloning of files and d
 3. Install dependencies: `pip install -r requirements.txt`
 
 ## Usage
-1. Run the application: `python cloner.py`
+1. Run the application: `python main.py`
 2. The application interface will be displayed, allowing users to:
    - Select framework configurations.
    - Configure selected items.
