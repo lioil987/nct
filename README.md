@@ -33,7 +33,7 @@ Cloner is a Python application designed to facilitate the cloning of files and d
    - you see a source field you must fill it right way [["address of file or folder 1","file name of folder name 1"],["address of file or folder  2","file name of folder name  2"]] you can add how many you want
    - notice that address can be a url or path of local item in you pc !
    - and you see other field that named destinaion you must inter only a folder
-   - and .. you see a title and description do you wana help for it ? i think nooooo ‌:‌D
+   - and .. you see a title and description do you want help for it ? i think nooooo ‌:‌D
 #### Please note that not all configurations present within the application work as expected This is normal behavior because the origin of the files is missing. These files are stored on my computer. You are welcome to add your own configurations. I left them to show how configuration is possible.
    #### "If you have an error in the app, please confirm the correction of the config file."
 
