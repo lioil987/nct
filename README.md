@@ -29,7 +29,9 @@ Cloner is a Python application designed to facilitate the cloning of files and d
    - Configure selected items.
    - Copy files or directories based on configurations.
    - Add new item(files or directories) configurations.
-   ### Please note that not all configurations present within the application work as expected. This is normal behavior because the origin of the files is missing. These files are stored on my computer. You are welcome to add your own configurations. I left them to show how configuration is possible.
+   ### Please note that not all configurations present within the application work as expected This is normal behavior because the origin of the files is missing. These files are stored on my computer. You are welcome to add your own configurations. I left them to show how configuration is possible.
+   ## "If you have an error in the app, please confirm the correction of the config file."
+
 
 ## Configuration
 - Framework configurations are stored in a JSON file (`data.json`). Users can modify this file directly or use the application interface to add, edit, or delete configurations.
@@ -38,6 +40,19 @@ Cloner is a Python application designed to facilitate the cloning of files and d
 - Python 3.x
 - textual
 - requests
+
+## how can i use it like a command?
+- create a shell script for run it i suggest  name it "nct" (the same name of tool) i have a sample for this file
+````shell
+#!/bin/bash
+# -*- coding: utf-8 -*-
+
+"The path to your Python interpreter (it must have requirement of requirement.txt)" "and the path to the main.py file"
+# for example if your inter python interpreter is "/opt/pApp/nct/.venv/bin/python" and path of main.py file is "/opt/pApp/nct/main.py" it sould be like
+#/opt/pApp/nct/.venv/bin/python /opt/pApp/nct/main.py
+````
+- Don't forget, you must give execution permission to the file!
+- And you're done! Enjoy using it! And please give me a star.
 
 ## Contributing
 Contributions to Cloner are welcome! Feel free to submit bug reports, feature requests, or pull requests via GitHub.
